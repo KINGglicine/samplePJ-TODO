@@ -1,0 +1,39 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ログイン</title>
+
+<link rel="stylesheet" th:href="@{/css/common.css}">
+<link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+
+<body>
+
+<div class="toptext">
+    <h1>ログイン</h1>
+</div>
+
+<div class="container">
+
+    <p th:if="${errorMsg}"
+       th:text="${errorMsg}"
+       class="error-msg"></p>
+
+    <form th:action="@{/login}" method="post">
+
+        <p>ユーザー名</p>
+        <input type="text" name="userName" required>
+
+        <p>パスワード</p>
+        <input type="password" name="password" required>
+
+        <button type="submit" class="login">ログイン</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

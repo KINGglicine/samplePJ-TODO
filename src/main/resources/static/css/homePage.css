@@ -1,0 +1,40 @@
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    text-align:center;
+}
+
+h1{
+    font-size:48px;
+    margin-bottom:30px;
+    color:black;
+}
+
+.btn-group{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+
+/* button → a に変更 */
+.btn-group a{
+    font-size:28px;
+    padding:18px 35px;
+    color:white;
+    border-radius:10px;
+    text-decoration:none;
+    display:inline-block;
+}
+
+.register{
+    background:green;
+}
+
+.login{
+    background:blue;
+}
