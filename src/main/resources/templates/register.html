@@ -11,25 +11,47 @@
 <body>
 
 <div class="container">
+
     <h1>ユーザ登録</h1>
 
-    <form th:action="@{/register}" method="post">
+    <form th:action="@{/register}"
+          th:object="${login}"
+          method="post">
+
+        <!-- 重複エラー -->
+        <div th:if="${errorMessage}"
+             th:text="${errorMessage}"
+             style="color:red">
+        </div>
 
         <p>ユーザー名（半角英字）</p>
-        <input type="text" name="userName" required>
+
+        <input type="text"
+               th:field="*{userName}"
+               required>
 
         <p>パスワード（半角英数字）</p>
-        <input type="password" name="password" required>
+
+        <input type="password"
+               th:field="*{password}"
+               required>
 
         <div class="btn-grp">
-            <button type="submit" class="register">登録</button>
 
-            <a th:href="@{/login}" class="login-btn">
+            <button type="submit"
+                    class="register">
+                登録
+            </button>
+
+            <a th:href="@{/login}"
+               class="login-btn">
                 ログインはこちら
             </a>
+
         </div>
 
     </form>
+
 </div>
 
 </body>

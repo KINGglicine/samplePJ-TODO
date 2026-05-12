@@ -1,20 +1,36 @@
 package sample.common.dao.entity;
 
 import java.time.LocalDate;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class Task {
 
     private Long id;
+
     private String userName;
+
+    @NotBlank(message = "タイトルは必須です")
+    @Size(max = 100, message = "タイトルは100文字以内です")
     private String title;
+
+    @Size(max = 500, message = "内容は500文字以内です")
     private String content;
+
+    @Size(max = 50, message = "担当者名は50文字以内です")
     private String name;
+
     private LocalDate startDate;
+
     private LocalDate endDate;
+    
     private LocalDateTime createdAt;
+
     private LocalDateTime updatedAt;
 
+    // id
     public Long getId() {
         return id;
     }
@@ -23,6 +39,7 @@ public class Task {
         this.id = id;
     }
 
+    // userName
     public String getUserName() {
         return userName;
     }
@@ -31,6 +48,7 @@ public class Task {
         this.userName = userName;
     }
 
+    // title
     public String getTitle() {
         return title;
     }
@@ -39,6 +57,7 @@ public class Task {
         this.title = title;
     }
 
+    // content
     public String getContent() {
         return content;
     }
@@ -47,6 +66,7 @@ public class Task {
         this.content = content;
     }
 
+    // name
     public String getName() {
         return name;
     }
@@ -55,6 +75,7 @@ public class Task {
         this.name = name;
     }
 
+    // startDate
     public LocalDate getStartDate() {
         return startDate;
     }
@@ -63,6 +84,7 @@ public class Task {
         this.startDate = startDate;
     }
 
+    // endDate
     public LocalDate getEndDate() {
         return endDate;
     }
@@ -70,7 +92,7 @@ public class Task {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
-
+ // createdAt
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -79,6 +101,7 @@ public class Task {
         this.createdAt = createdAt;
     }
 
+    // updatedAt
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }

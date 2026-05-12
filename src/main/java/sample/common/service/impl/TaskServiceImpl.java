@@ -10,43 +10,65 @@ import sample.common.dao.mapper.TaskMapper;
 import sample.common.service.TaskService;
 
 @Service
-public class TaskServiceImpl implements TaskService {
+public class TaskServiceImpl
+        implements TaskService {
 
     @Autowired
     private TaskMapper taskMapper;
 
+    // 一覧
     @Override
-    public List<Task> findAll() {
-        return taskMapper.findAll();
+    public List<Task> findPage(
+            int limit,
+            int offset,
+            String userName) {
+
+        return taskMapper.findPage(
+                limit,
+                offset,
+                userName);
     }
 
+    // 件数
     @Override
-    public List<Task> findPage(int limit, int offset) {
-        return taskMapper.findPage(limit, offset);
+    public int countAll(
+            String userName) {
+
+        return taskMapper.countAll(
+                userName);
     }
 
+    // 詳細
     @Override
-    public int countAll() {
-        return taskMapper.countAll();
+    public Task findById(
+            Long id,
+            String userName) {
+
+        return taskMapper.findById(
+                id,
+                userName);
     }
 
+    // 登録
     @Override
-    public int insert(Task task) {
-        return taskMapper.insert(task);
+    public void insert(Task task) {
+        taskMapper.insert(task);
     }
 
+    // 更新
     @Override
-    public Task findById(Long id) {
-        return taskMapper.findById(id);
+    public void update(Task task) {
+        taskMapper.update(task);
     }
 
+    // 削除
     @Override
-    public int update(Task task) {
-        return taskMapper.update(task);
-    }
+    public void delete(
+            Long id,
+            String userName) {
 
-    @Override
-    public int delete(Long id) {
-        return taskMapper.delete(id);
+        taskMapper.delete(
+                id,
+                userName);
     }
 }

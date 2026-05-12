@@ -3,23 +3,43 @@ package sample.common.dao.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import sample.common.dao.entity.Task;
 
 @Mapper
 public interface TaskMapper {
 
-    List<Task> findAll();
+    // 一覧
+    List<Task> findPage(
+            @Param("limit") int limit,
 
-    List<Task> findPage(int limit, int offset);
+            @Param("offset") int offset,
 
-    int countAll();
+            @Param("userName") String userName);
 
-    Task findById(Long id);
+    // 件数
+    int countAll(
+            @Param("userName")
+            String userName);
 
-    int insert(Task task);
+    // 詳細
+    Task findById(
+            @Param("id") Long id,
 
-    int update(Task task);
+            @Param("userName")
+            String userName);
 
-    int delete(Long id);
+    // 登録
+    void insert(Task task);
+
+    // 更新
+    void update(Task task);
+
+    // 削除
+    void delete(
+            @Param("id") Long id,
+
+            @Param("userName")
+            String userName);
 }

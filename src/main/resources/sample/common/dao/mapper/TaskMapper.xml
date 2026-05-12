@@ -5,24 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="sample.common.dao.mapper.TaskMapper">
 
-    <select id="findAll"
-            resultType="sample.common.dao.entity.Task">
-
-        SELECT
-            id,
-            username AS userName,
-            title,
-            content,
-            name,
-            start_date AS startDate,
-            end_date AS endDate,
-            created_at AS createdAt,
-            updated_at AS updatedAt
-        FROM tasks
-        ORDER BY id DESC
-
-    </select>
-
+    <!-- 一覧 -->
     <select id="findPage"
             resultType="sample.common.dao.entity.Task">
 
@@ -37,20 +20,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             created_at AS createdAt,
             updated_at AS updatedAt
         FROM tasks
+
+        WHERE username = #{userName}
+
         ORDER BY id DESC
-        LIMIT #{limit} OFFSET #{offset}
+
+        LIMIT #{limit}
+        OFFSET #{offset}
 
     </select>
 
+    <!-- 件数 -->
     <select id="countAll"
             resultType="int">
 
-        SELECT COUNT(*) FROM tasks
+        SELECT COUNT(*)
+
+        FROM tasks
+
+        WHERE username = #{userName}
 
     </select>
 
+    <!-- 詳細 -->
     <select id="findById"
-            parameterType="long"
             resultType="sample.common.dao.entity.Task">
 
         SELECT
@@ -64,10 +57,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             created_at AS createdAt,
             updated_at AS updatedAt
         FROM tasks
+
         WHERE id = #{id}
+
+        AND username = #{userName}
 
     </select>
 
+    <!-- 登録 -->
     <insert id="insert"
             parameterType="sample.common.dao.entity.Task">
 
@@ -90,27 +87,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     </insert>
 
+    <!-- 更新 -->
     <update id="update"
             parameterType="sample.common.dao.entity.Task">
 
         UPDATE tasks
+
         SET
-            username   = #{userName},
             title      = #{title},
             content    = #{content},
             name       = #{name},
             start_date = #{startDate},
             end_date   = #{endDate},
             updated_at = now()
+
         WHERE id = #{id}
+
+        AND username = #{userName}
 
     </update>
 
-    <delete id="delete"
-            parameterType="long">
+    <!-- 削除 -->
+    <delete id="delete">
 
         DELETE FROM tasks
+
         WHERE id = #{id}
+
+        AND username = #{userName}
 
     </delete>
 

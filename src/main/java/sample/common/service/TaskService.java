@@ -6,17 +6,28 @@ import sample.common.dao.entity.Task;
 
 public interface TaskService {
 
-    List<Task> findAll();
+    // 一覧
+    List<Task> findPage(
+            int limit,
+            int offset,
+            String userName);
 
-    List<Task> findPage(int limit, int offset);
+    // 件数
+    int countAll(String userName);
 
-    int countAll();
+    // 詳細
+    Task findById(
+            Long id,
+            String userName);
 
-    int insert(Task task);
+    // 登録
+    void insert(Task task);
 
-    Task findById(Long id);
+    // 更新
+    void update(Task task);
 
-    int update(Task task);
-
-    int delete(Long id);
+    // 削除
+    void delete(
+            Long id,
+            String userName);
 }
