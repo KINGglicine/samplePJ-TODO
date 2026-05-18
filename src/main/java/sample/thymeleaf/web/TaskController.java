@@ -1,30 +1,31 @@
 package sample.thymeleaf.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.core.Authentication;
-
 import org.springframework.stereotype.Controller;
-
 import org.springframework.ui.Model;
-
 import org.springframework.validation.BindingResult;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import jakarta.validation.Valid;
 
 import sample.common.dao.entity.Task;
 import sample.common.service.TaskService;
+import sample.common.dao.form.TaskForm;
 
 @Controller
 public class TaskController {
 
-    @Autowired
-    private TaskService taskService;
+    private static final int PAGE_SIZE = 10;
+
+    private final TaskService taskService;
+
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     // 一覧
     @GetMapping("/tasks")
@@ -39,8 +40,7 @@ public class TaskController {
 
             Model model) {
 
-        int limit = 7;
-        int offset = (page - 1) * limit;
+        int offset = (page - 1) * PAGE_SIZE;
 
         // ログインユーザー
         String loginUser =
@@ -50,7 +50,7 @@ public class TaskController {
                 "taskList",
 
                 taskService.findPage(
-                        limit,
+                        PAGE_SIZE,
                         offset,
                         loginUser));
 
@@ -60,7 +60,7 @@ public class TaskController {
 
         int totalPage =
                 (int) Math.ceil(
-                        (double) totalCount / limit);
+                        (double) totalCount / PAGE_SIZE);
 
         model.addAttribute(
                 "currentPage",
@@ -80,7 +80,7 @@ public class TaskController {
 
         model.addAttribute(
                 "task",
-                new Task());
+                new TaskForm());
 
         return "tasks/form-new";
     }
@@ -89,7 +89,7 @@ public class TaskController {
     @GetMapping("/tasks/edit/{id}")
     public String showEdit(
 
-    		@PathVariable("id") Long id,
+            @PathVariable("id") Long id,
 
             Authentication auth,
 
@@ -98,12 +98,20 @@ public class TaskController {
         String loginUser =
                 auth.getName();
 
-        model.addAttribute(
-                "task",
-
+        Task task =
                 taskService.findById(
                         id,
-                        loginUser));
+                        loginUser);
+
+        TaskForm form = new TaskForm();
+
+        form.setId(task.getId());
+        form.setTitle(task.getTitle());
+        form.setContent(task.getContent());
+
+        model.addAttribute(
+                "taskForm",
+                form);
 
         return "tasks/form-edit";
     }
@@ -111,23 +119,21 @@ public class TaskController {
     // 更新
     @PostMapping("/tasks/update")
     public String update(
-
-            @Valid Task task,
-
+            @ModelAttribute("taskForm") @Valid TaskForm form,
             BindingResult br,
+            Authentication auth,
+            Model model) {
 
-            Authentication auth) {
-
-        // バリデーションエラー
         if (br.hasErrors()) {
-
+            model.addAttribute("taskForm", form);
             return "tasks/form-edit";
         }
 
-        String loginUser =
-                auth.getName();
-
-        task.setUserName(loginUser);
+        Task task = new Task();
+        task.setId(form.getId());
+        task.setTitle(form.getTitle());
+        task.setContent(form.getContent());
+        task.setUserName(auth.getName());
 
         taskService.update(task);
 
@@ -138,24 +144,21 @@ public class TaskController {
     @PostMapping("/tasks/create")
     public String create(
 
-            @Valid Task task,
+            @Valid TaskForm form,
 
             BindingResult br,
 
             Authentication auth) {
 
-        // バリデーションエラー
         if (br.hasErrors()) {
-
             return "tasks/form-new";
         }
 
-        // ログインユーザー
-        String loginUser =
-                auth.getName();
+        Task task = new Task();
 
-        // 強制セット
-        task.setUserName(loginUser);
+        task.setTitle(form.getTitle());
+        task.setContent(form.getContent());
+        task.setUserName(auth.getName());
 
         taskService.insert(task);
 
@@ -166,7 +169,7 @@ public class TaskController {
     @PostMapping("/tasks/delete/{id}")
     public String delete(
 
-    		@PathVariable("id") Long id,
+            @PathVariable("id") Long id,
 
             Authentication auth) {
 

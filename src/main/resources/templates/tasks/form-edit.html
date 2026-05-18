@@ -14,31 +14,62 @@
 
     <h1>タスク編集</h1>
 
-    <form th:action="@{/tasks/update}" method="post">
+    <form th:action="@{/tasks/update}"
+          th:object="${taskForm}"
+          method="post">
 
-        <input type="hidden" name="id" th:value="${task.id}">
+        <input type="hidden" th:field="*{id}">
 
-        <p>タイトル</p>
-        <input type="text" name="title" th:value="${task.title}" required>
+        <!-- タイトル -->
+        <div class="form-group">
+            <label>タイトル</label>
+            <input type="text" th:field="*{title}">
 
-        <p>内容</p>
-        <textarea name="content" rows="5"
-                  th:text="${task.content}"></textarea>
+            <p class="error-msg"
+               th:errors="*{title}"></p>
+        </div>
 
-        <p>登録者</p>
-        <input type="text" name="userName" th:value="${task.userName}">
+        <!-- 内容 -->
+        <div class="form-group">
+            <label>内容</label>
 
-        <p>開始日</p>
-        <input type="date" name="startDate"
-               th:value="${task.startDate}">
+            <textarea th:field="*{content}"></textarea>
 
-        <p>終了日</p>
-        <input type="date" name="endDate"
-               th:value="${task.endDate}">
+            <p class="error-msg"
+               th:errors="*{content}"></p>
+        </div>
 
+        <!-- 担当者 -->
+        <div class="form-group">
+            <label>担当者</label>
+
+            <input type="text"
+                   th:field="*{userName}">
+
+            <p class="error-msg"
+               th:errors="*{userName}"></p>
+        </div>
+
+        <!-- 開始日 -->
+        <div class="form-group">
+            <label>開始日</label>
+
+            <input type="date"
+                   th:field="*{startDate}">
+        </div>
+
+        <!-- 終了日 -->
+        <div class="form-group">
+            <label>終了日</label>
+
+            <input type="date"
+                   th:field="*{endDate}">
+        </div>
+
+        <!-- ボタン -->
         <div class="btn-group">
 
-            <button type="submit" class="edit">
+            <button type="submit">
                 更新
             </button>
 

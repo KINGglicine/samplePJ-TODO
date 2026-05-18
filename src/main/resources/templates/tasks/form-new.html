@@ -50,18 +50,18 @@
            th:errors="*{content}">
         </p>
 
-        <!-- 担当者 -->
-        <p>担当者</p>
+		<!-- 担当者 -->
+		<p>担当者</p>
 
-        <input type="text"
-               th:field="*{name}"
-               placeholder="田中 太郎">
+		<input type="text"
+		       th:field="*{userName}"
+		       placeholder="田中 太郎">
 
-        <!-- 担当者エラー -->
-        <p class="error-msg"
-           th:if="${#fields.hasErrors('name')}"
-           th:errors="*{name}">
-        </p>
+		<!-- 担当者エラー -->
+		<p class="error-msg"
+		   th:if="${#fields.hasErrors('userName')}"
+		   th:errors="*{userName}">
+		</p>
 
         <!-- 開始日 -->
         <p>開始日</p>

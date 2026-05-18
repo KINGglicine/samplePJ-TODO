@@ -49,8 +49,8 @@
                     <td th:text="${task.title}"></td>
                     <td th:text="${task.content}"></td>
                     <td th:text="${task.userName}"></td>
-                    <td th:text="${task.startDate}"></td>
-                    <td th:text="${task.endDate}"></td>
+					<td th:text="${#temporals.format(task.startDate,'yyyy/MM/dd')}"></td>
+					<td th:text="${#temporals.format(task.endDate,'yyyy/MM/dd')}"></td>
 
                     <td th:text="${#temporals.format(task.createdAt,'yyyy/MM/dd HH:mm')}"></td>
                     <td th:text="${#temporals.format(task.updatedAt,'yyyy/MM/dd HH:mm')}"></td>
